@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.magimight.venn</groupId>
 	<artifactId>website</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>website</name>
 	<description>Venn Data site</description>
 	<url/>
