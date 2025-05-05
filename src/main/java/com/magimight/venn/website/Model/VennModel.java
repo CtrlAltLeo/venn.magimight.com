@@ -9,7 +9,7 @@ import java.util.ArrayList;
 @Document("Venn_Data_Objects")
 @Setter
 @Getter
-public class Venn extends RootData {
+public class VennModel extends RootData {
     ArrayList<Set> Sets;
 }
 

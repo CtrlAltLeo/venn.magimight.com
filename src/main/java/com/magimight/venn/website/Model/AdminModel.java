@@ -12,7 +12,7 @@ public class AdminModel {
     public enum AdminLevel {CREATE, CREATE_DELETE};
 
     @Id
-    private String id;
+    private int id;
 
     @LastModifiedDate
     private String lastModifiedDate;
