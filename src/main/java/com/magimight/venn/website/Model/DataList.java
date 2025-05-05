@@ -5,13 +5,15 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("TestPerson")
-@Getter @Setter
-public class TestPersonModel {
+import java.util.ArrayList;
 
+@Document("DataList")
+@Setter
+@Getter
+public class DataList extends RootData {
     @Id
-    private String id;
+    public int id;
 
-    private String firstName;
-    private String lastName;
+    ArrayList<String> data;
+    Boolean orderedList;
 }
