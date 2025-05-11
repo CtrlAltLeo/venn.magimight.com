@@ -12,7 +12,7 @@ import java.util.Date;
 public class RootData {
 
     @Id
-    protected int id;
+    protected String id;
     protected String name;
     @DBRef
     protected AdminModel creator;

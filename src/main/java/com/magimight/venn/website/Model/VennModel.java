@@ -10,10 +10,6 @@ import java.util.ArrayList;
 @Setter
 @Getter
 public class VennModel extends RootData {
-    ArrayList<Set> Sets;
+    ArrayList<VennSet> Sets;
 }
 
-class Set {
-    char[] sets;
-    int size;
-}

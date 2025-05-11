@@ -14,9 +14,10 @@ public class AdminController {
     @Autowired
     private AdminRepository adminRepository;
 
-    @GetMapping("/get/{id}")
-    public AdminModel getAdmin(@PathVariable String id) {
-        return adminRepository.findById(id).orElseThrow();
+    @GetMapping("/get")
+    public AdminModel getAdmin(@RequestParam String email) {
+        System.out.print(email);
+        return adminRepository.findByEmail(email);
     }
 
     @PostMapping("/create")
