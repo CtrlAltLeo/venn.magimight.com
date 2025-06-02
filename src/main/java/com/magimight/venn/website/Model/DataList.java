@@ -11,9 +11,6 @@ import java.util.ArrayList;
 @Setter
 @Getter
 public class DataList extends RootData {
-    @Id
-    public int id;
-
     ArrayList<String> data;
     Boolean orderedList;
 }
