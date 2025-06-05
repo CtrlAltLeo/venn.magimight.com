@@ -27,13 +27,13 @@ public class AdminController {
     }
 
     @PostMapping("/create")
-    public AdminModel createAdmin(@RequestBody AdminModel adminModel) {
+    public AdminModel createAdmin(@ModelAttribute AdminModel adminModel) {
         log.info(adminModel.toString());
         return userService.createNewUser(adminModel);
     }
 
     @PutMapping("/{id}")
-    public AdminModel updateAdmin(@PathVariable String id, @RequestBody AdminModel adminModel) {
+    public AdminModel updateAdmin(@PathVariable String id, @ModelAttribute AdminModel adminModel) {
         AdminModel updatedAdmin = adminRepository.findById(id).orElseThrow();
 
         if (adminModel.getEmail() != null) {
