@@ -2,6 +2,7 @@ package com.magimight.venn.website.Controller;
 
 import com.magimight.venn.website.Model.AdminModel;
 import com.magimight.venn.website.Repository.AdminRepository;
+import com.magimight.venn.website.Service.UserService;
 import com.mongodb.internal.bulk.UpdateRequest;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class AdminController {
     @Autowired
     private AdminRepository adminRepository;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/get")
     public AdminModel getAdmin(@RequestParam String email) {
         System.out.print(email);
@@ -25,7 +29,7 @@ public class AdminController {
     @PostMapping("/create")
     public AdminModel createAdmin(@RequestBody AdminModel adminModel) {
         log.info(adminModel.toString());
-        return adminRepository.save(adminModel);
+        return userService.createNewUser(adminModel);
     }
 
     @PutMapping("/{id}")

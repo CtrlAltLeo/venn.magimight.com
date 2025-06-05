@@ -9,13 +9,16 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Date;
+import java.util.*;
 
 @Document("Admin")
 @Getter
 @Setter
-public class AdminModel {
+public class AdminModel implements UserDetails {
 
     public enum AdminLevel {CREATE, CREATE_DELETE};
 
@@ -33,8 +36,7 @@ public class AdminModel {
     @Indexed(unique = true)
     private String email;
 
-    //This will need to be hashed
-    //private String password;
+    private String password;
 
     @Field("admin_level")
     private AdminLevel adminLevel;
@@ -42,5 +44,15 @@ public class AdminModel {
     @Override
     public String toString() {
         return String.format("ID: %s Email: %s Admin Level: %d", id,  email, adminLevel.ordinal());
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return new ArrayList<SimpleGrantedAuthority>(List.of(new SimpleGrantedAuthority(adminLevel.name())));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 }
