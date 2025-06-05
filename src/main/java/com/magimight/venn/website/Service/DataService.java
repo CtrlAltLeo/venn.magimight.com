@@ -4,6 +4,7 @@ import com.magimight.venn.website.Model.AdminModel;
 import com.magimight.venn.website.Model.VennModel;
 import com.magimight.venn.website.Model.VennSet;
 import com.magimight.venn.website.Repository.VennRepository;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.Date;
 import java.util.Optional;
 
 @Service
+@Log
 public class DataService {
 
     @Autowired
@@ -25,6 +27,7 @@ public class DataService {
     }
 
     public VennModel saveVenn(VennModel vennModel){
+        log.info(vennModel.toString());
         return vennRepository.save(vennModel);
     }
 
