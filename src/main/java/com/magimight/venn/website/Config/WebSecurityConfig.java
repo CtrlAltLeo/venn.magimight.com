@@ -6,8 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -33,11 +35,11 @@ public class WebSecurityConfig {
         http.
                 authorizeHttpRequests((requests) ->
                         requests
-                                /*.requestMatchers("/admin/**", "/admindata/delete/**").hasAuthority("CREATE_DELETE")
-                                .requestMatchers("/admindata/create/**").hasAuthority("CREATE") */
+                                .requestMatchers("/admin/**", "/admindata/delete/**").authenticated()
+                                .requestMatchers("/admindata/create/**").authenticated()
                                 .anyRequest().permitAll())
-                .formLogin((form) -> form.loginPage("/login").permitAll())
-                .logout((logout) -> logout.logoutSuccessUrl("/logout"));
+                .formLogin(Customizer.withDefaults());
+                //Change this back to custom form login page
 
         return http.build();
     }
