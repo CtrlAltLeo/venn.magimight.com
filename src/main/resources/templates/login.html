@@ -1,12 +1,43 @@
 <html>
-    <head>
-
+    <head th:insert="~{snippets/head}">
+        <title>Login</title>
     </head>
     <body>
-        <form method="post" th:action="@{/login}">
-            <input  type="text" name="username" placeholder="Username" />
-            <input type="password" name="password" placeholder="Password" />
-            <input type="submit" value="Login" />
-        </form>
+
+        <main class="container">
+
+            <div class="container-fluid row h-75 align-items-center">
+
+                <form method="post" th:action="@{/login}">
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col-5 card shadow-lg">
+
+                            <div class="row py-1 m-2 text-center">
+                                <h3>Admin Login</h3>
+                            </div>
+
+                            <div class="row py-1 m-2">
+                                <input  type="text" name="username" placeholder="Username" class="form-control" />
+                            </div>
+
+                            <div class="row py-1 m-2">
+                                <input type="password" name="password" placeholder="Password" class="form-control"/>
+                            </div>
+
+                            <div  class="row py-3 m-2">
+                                <a th:href="@{/}" class="btn btn-danger col mx-2">Cancel</a>
+                                <input type="submit" value="Login" class="btn btn-primary col mx-2" />
+                            </div>
+
+                        </div>
+                        <div class="col"></div>
+                    </div>
+
+                </form>
+            </div>
+        </main>
+
+
     </body>
 </html>
