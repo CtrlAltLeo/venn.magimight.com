@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <title th:text="${name}"></title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <script src="/js/d3.v7.min.js"></script>
+    <script src="/js/venn.js"></script>
+    <script>
+
+      //Hello World, or should I say venn :)))))
+
+      function ready(){
+
+          let vennId = document.getElementById("vennid");
+          console.log(vennId.value);
+
+          let url = "./data/venn?id=";
+
+          fetch(url.concat(vennId.value.toString()))
+              .then((response) => response.json())
+              .then((data) => {
+
+                  console.log(data.sets);
+
+                  var chart = venn.VennDiagram();
+                  d3.select("#venn").datum(data.sets).call(chart);
+              });
+      }
+
+     </script>
+
+</head>
+<body onload="ready()">
+
+<input id="vennid" name="vennid" type="hidden" th:value="${vennid}"/>
+
+<main class="container-fluid">
+
+    <div class="card shadow-lg" id="venn">
+
+    </div>
+
+</main>
+
+
+</body>
+</html>

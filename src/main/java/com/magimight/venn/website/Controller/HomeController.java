@@ -41,5 +41,11 @@ public class HomeController {
         return "error";
     }
 
+    @GetMapping("/venn")
+    public String venn(Model model) { //Later, add an ID so that you can lookup venns by IDs
+        model.addAttribute("vennid", "683e24d5e0e1ec02f2cbf80a");
+        return "data/display_venn";
+    }
+
 
 }
