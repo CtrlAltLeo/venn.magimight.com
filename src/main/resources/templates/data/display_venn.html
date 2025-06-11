@@ -10,23 +10,20 @@
       //Hello World, or should I say venn :)))))
 
       function ready(){
-
+          //SANITISE THISSSSSS VVVV
           let vennId = document.getElementById("vennid");
-          console.log(vennId.value);
-
           let url = "./data/venn?id=";
 
           fetch(url.concat(vennId.value.toString()))
               .then((response) => response.json())
               .then((data) => {
-
-                  console.log(data.sets);
+                  let title = document.getElementById("venntitle");
+                  title.innerHTML = data.name;
 
                   var chart = venn.VennDiagram();
                   d3.select("#venn").datum(data.sets).call(chart);
               });
       }
-
      </script>
 
 </head>
@@ -36,10 +33,16 @@
 
 <main class="container-fluid">
 
-    <div class="card shadow-lg" id="venn">
-
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header"><h2 id="venntitle"></h2></div>
+            <div class="row card-body">
+                <div id="venn" class="col-auto m-auto p-2"></div>
+                <div class="col">Nutrition Facts</div>
+            </div>
+            <a th:href="@{/}" class="card-link">Return Home</a>
+        </div>
     </div>
-
 </main>
 
 
