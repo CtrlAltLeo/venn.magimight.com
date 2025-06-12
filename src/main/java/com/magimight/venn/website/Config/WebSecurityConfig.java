@@ -35,10 +35,10 @@ public class WebSecurityConfig {
         http.
                 authorizeHttpRequests((requests) ->
                         requests
-                                .requestMatchers("/admin/**", "/admindata/delete/**").hasAuthority("CREATE_DELETE")
+                                .requestMatchers("/admin/**","/admindata/**").hasAuthority("CREATE_DELETE")
                                 .requestMatchers("/admindata/create/**").hasAuthority("CREATE")
                                 .anyRequest().permitAll())
-                .formLogin((form) -> form.loginPage("/login").defaultSuccessUrl("/", true));
+                .formLogin((form) -> form.loginPage("/login").defaultSuccessUrl("/"));
 
         return http.build();
     }

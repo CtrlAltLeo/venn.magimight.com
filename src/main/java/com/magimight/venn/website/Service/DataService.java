@@ -47,6 +47,10 @@ public class DataService {
        System.out.println("Venn created");
     }
 
+    public boolean doesVennExist(String id){
+        return vennRepository.existsById(id);
+    }
+
     // Get top 10 venns
 
     // Get Recent venns

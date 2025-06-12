@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <title>Home</title>
+        <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+        <script src="/js/d3.v7.min.js"></script>
+        <script src="/js/venn.js"></script>
+        <script>
+           // Cool code goes here. Maybe put this under .js
+
+           function init(){
+               var sets = [{sets:["A"], size:10},
+                   {sets:["B"], size:10}
+               ]
+
+               var chart = venn.VennDiagram();
+               d3.select("#venn").datum(sets).call(chart);
+           }
+
+        </script>
+    </head>
+    <body onload="init()">
+
+        <main class="container card bg-gradient-">
+
+            <div class="row">
+                <div class="col">
+                    <div id="venn"></div>
+                </div>
+                <div class="col bg-light-subtle">
+                    <div>
+                        <ul>
+                            <li>Hello there</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </main>
+
+
+    </body>
+</html>
