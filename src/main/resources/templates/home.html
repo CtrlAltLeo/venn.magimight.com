@@ -4,18 +4,16 @@
         <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     </head>
     <body>
-        <div class="container bg-light-subtle">
-            <h1>Hello World!</h1>
-        </div>
+        <div th:insert="~{snippets/navbar}"></div>
 
-        <p th:if="${activeUser != ''}">Hey again <span th:text="${activeUser}"></span></p>
+        <main class="container">
+            <p th:if="${activeUser != ''}">Hey again <span th:text="${activeUser}"></span></p>
 
-        <a th:href="@{/login}">Login Here</a>
+            <a th:href="@{/venn?id=683e24d5e0e1ec02f2cbf80a}">See Venn 1</a>
 
-        <br>
+            <p>Data of the day:</p>
+        </main>
 
-        <a th:href="@{/venn?id=683e24d5e0e1ec02f2cbf80a}">See Venn 1</a>
 
-        <p>Data of the day:</p>
     </body>
 </html>

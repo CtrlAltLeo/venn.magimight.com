@@ -1,9 +1,11 @@
 package com.magimight.venn.website.Controller;
 
+import com.magimight.venn.website.Model.AdminModel;
 import com.magimight.venn.website.Service.DataService;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,11 +17,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/")
 public class HomeController {
 
-    private final DataService dataService;
-
-    public HomeController(DataService dataService) {
-        this.dataService = dataService;
-    }
+    @Autowired
+    DataService dataService;
 
     @GetMapping("/")
     public String index(Authentication authentication, Model model) {
