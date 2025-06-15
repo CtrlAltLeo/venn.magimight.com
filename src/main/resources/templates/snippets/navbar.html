@@ -13,8 +13,12 @@
                     <a class="nav-link" th:href="@{/venn?id=683e24d5e0e1ec02f2cbf80a}">Venn Diagrams</a>
                 </li>
             </ul>
-            <div class="d-flex">
-                <a th:href="@{/login}" class="btn btn-outline-info">Login</a>
+            <div class="row mx-1">
+                <p th:text="${session.email}" class="col my-auto"></p>
+                <a th:href="@{/login}" th:if="${session.email == null}" class="btn btn-outline-info col">Login</a>
+                <form class="col my-auto" method="post" th:action="@{/logout}">
+                    <input type="submit" th:if="${session.email != null}" class="btn btn-outline-danger" value="Logout">
+                </form>
             </div>
         </div>
     </div>

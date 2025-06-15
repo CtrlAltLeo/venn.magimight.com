@@ -18,9 +18,11 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         AdminModel adminModel = (AdminModel) authentication.getPrincipal();
-        List<GrantedAuthority> authorities = (List<GrantedAuthority>) authentication.getAuthorities().stream().toList();
+        //List<GrantedAuthority> authorities = (List<GrantedAuthority>) authentication.getAuthorities().stream().toList();
 
-        request.getSession().setAttribute("user", adminModel.getEmail());
-        request.getSession().setAttribute("authority", authorities.getFirst());
+        request.getSession().setAttribute("email", adminModel.getEmail());
+        //request.getSession().setAttribute("authority", authorities.getFirst());
+
+        response.sendRedirect("/");
     }
 }

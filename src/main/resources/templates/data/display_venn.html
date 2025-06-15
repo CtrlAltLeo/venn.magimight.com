@@ -3,6 +3,7 @@
 <head>
     <title th:text="${name}"></title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <script src="/js/bootstrap.bundle.min.js"></script>
     <script src="/js/d3.v7.min.js"></script>
     <script src="/js/venn.js"></script>
     <script>
@@ -34,13 +35,15 @@
 <main class="container-fluid">
 
     <div class="container">
-        <div class="card shadow-lg">
+        <div class="card shadow-lg m-5">
             <div class="card-header"><h2 id="venntitle"></h2></div>
             <div class="row card-body">
-                <div id="venn" class="col-auto m-auto p-2"></div>
+                <div id="venn" class="col-auto m-auto p-2 img-fluid"></div>
                 <div class="col">Nutrition Facts</div>
             </div>
-            <a th:href="@{/}" class="card-link">Return Home</a>
+            <div class="row p-2 m-auto">
+                <a th:href="@{/}" class="card-link col m-auto">Return Home</a>
+            </div>
         </div>
     </div>
 </main>

@@ -52,6 +52,8 @@ public class HomeController {
         //sanitise this input
         if (dataService.doesVennExist(id)){
             model.addAttribute("vennid", id);
+            //This should be handed w/ JS
+            model.addAttribute("name", "Name of the Venn");
             return "data/display_venn";
         } else {
             throw new Exception("MY BROTHER THIS VENN DOES NOT EXIST");
