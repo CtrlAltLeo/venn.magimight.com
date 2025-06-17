@@ -12,6 +12,29 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/venn?id=683e24d5e0e1ec02f2cbf80a}">Venn Diagrams</a>
                 </li>
+
+                 <!-- Admin Dropdown list -->
+                <li th:if="${session.email != null}" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Data Admin
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{/admindata/create}">Create New Venn</a></li>
+                        <li><a class="dropdown-item" href="#">Venn List</a></li>
+                    </ul>
+                </li>
+
+                <!-- User Admin DDL -->
+                <li th:if="${session.email != null}" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        User Admin
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{/admin/new}">Create New User</a></li>
+                        <li><a class="dropdown-item" href="#">User List</a></li>
+                    </ul>
+                </li>
+
             </ul>
             <div class="row mx-1">
                 <p th:text="${session.email}" class="col my-auto"></p>

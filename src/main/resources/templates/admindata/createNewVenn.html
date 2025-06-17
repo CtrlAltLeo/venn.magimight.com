@@ -7,13 +7,57 @@
         <script>
            // Cool code goes here. Maybe put this under .js
 
+           let setInputElement = "<input type='text'>"
+
+           class _set {
+               constructor(sets, size) {
+                   this.sets = sets;
+                   this.size = size;
+               }
+           }
+
            function init(){
-               var sets = [{sets:["A"], size:10},
-                   {sets:["B"], size:10}
-               ]
+               var sets = [new _set(["A"], 10), new _set(["B"], 10), new _set(["A", "B"], 3)];
 
                var chart = venn.VennDiagram();
                d3.select("#venn").datum(sets).call(chart);
+           }
+
+           function update(){
+               let sets = [];
+               let setParent = document.getElementById("setsList");
+               let interParent = document.getElementById("interList")
+
+               for (var i = 0; i < setParent.childElementCount; i++){
+                   console.log(setParent.children[i].value);
+                   sets[i] = new _set([setParent.children[i].value], 10);
+               }
+
+               for (var j = 0; j < interParent.childElementCount; j++){
+                   console.log(interParent.children[j].value.split(","));
+                   sets[setParent.childElementCount + j] = new _set(interParent.children[j].value.split(","), 5);
+               }
+
+               console.log(sets);
+
+               var chart = venn.VennDiagram();
+               d3.select("#venn").datum(sets).call(chart);
+           }
+
+           function addSet(){
+                /* Add some code here to save the value to the HTML so it doesn't get overwritten
+               let setList = document.getElementById("setsList");
+
+               for (var child in setList.children){
+
+               }
+                */
+
+               document.getElementById("setsList").innerHTML += setInputElement;
+           }
+
+           function addIntersection(){
+               document.getElementById("interList").innerHTML += setInputElement;
            }
 
         </script>
@@ -23,17 +67,34 @@
         <main class="container card bg-gradient-">
 
             <div class="row">
+
                 <div class="col">
                     <div id="venn"></div>
                 </div>
+
                 <div class="col bg-light-subtle">
-                    <div>
-                        <ul>
-                            <li>Hello there</li>
-                        </ul>
+                    <div class="row">
+                        <!-- Sets -->
+                        <div  class="col">
+                            <div id="setsList" class="row">
+                                <input type="text" value="A">
+                            </div>
+                        </div>
+                        <!-- Intersections -->
+                        <div id="interList" class="col"></div>
                     </div>
+                    <div class="row text-center">
+                        <div class="col"><button onclick="addSet()" class="btn btn-primary">Add Set</button></div>
+                        <div class="col"><button onclick="addIntersection()" class="btn btn-outline-info">Add Intersectoin</button></div>
+                    </div>
+
                 </div>
 
+                <div class="row text-center">
+                    <div class="col">
+                        <button onclick="update()" class="btn btn-outline-secondary">Update</button>
+                    </div>
+                </div>
 
             </div>
 
