@@ -7,12 +7,19 @@
         <script>
            // Cool code goes here. Maybe put this under .js
 
-           let setInputElement = "<input type='text' >"
+           let setInputElement = "<div class='row'><input type='text' class='col-6' ><input class='col' type='number'><button class='btn btn-outline-danger mx-1 col-auto' type='button' onclick='removeInput(this)'>Trash</button></div>"
 
            class _set {
                constructor(sets, size) {
                    this.sets = sets;
                    this.size = size;
+               }
+           }
+
+           class VennModel {
+               constructor(name, sets) {
+                   this.name = name;
+                   this.sets = sets;
                }
            }
 
@@ -24,24 +31,46 @@
            }
 
            function update(){
+               let sets = getSets();
+
+               var chart = venn.VennDiagram();
+               d3.select("#venn").datum(sets).call(chart);
+           }
+
+           function saveVenn(){
+               let sets = getSets();
+               let vennModel = new VennModel(document.getElementById("vennName").value, sets)
+
+               let payload = JSON.stringify(vennModel);
+
+               console.log(payload);
+
+               fetch("./create/venn", {
+                   method: "post",
+                   body : payload
+               });
+           }
+
+           function getSets(){
                let sets = [];
                let setParent = document.getElementById("setsList");
                let interParent = document.getElementById("interList")
 
                for (var i = 0; i < setParent.childElementCount; i++){
-                   console.log(setParent.children[i].value);
-                   sets[i] = new _set([setParent.children[i].value], 10);
+                   console.log(i);
+                   sets[i] = new _set([setParent.children[i].children[0].value], setParent.children[i].children[1].value);
                }
 
-               for (var j = 0; j < interParent.childElementCount; j++){
-                   console.log(interParent.children[j].value.split(","));
-                   sets[setParent.childElementCount + j] = new _set(interParent.children[j].value.split(","), 5);
+               console.log("Down with sets");
+
+               for (var i = 0; i < interParent.childElementCount; i++){
+                   console.log(i);
+                   sets[setParent.childElementCount + i] = new _set(interParent.children[i].children[0].value.split(","), interParent.children[i].children[1].value);
                }
 
-               console.log(sets);
+               console.log("down with intersectsoin");
 
-               var chart = venn.VennDiagram();
-               d3.select("#venn").datum(sets).call(chart);
+               return sets;
            }
 
            function addInput(strListId){
@@ -49,20 +78,20 @@
                let valueList = [];
 
                for (var i = 0; i < setList.childElementCount; i++){
-                    let child = setList.children[i];
+                    let child = setList.children[i].children[0];
                     valueList[i] = child.value;
                }
 
                setList.innerHTML += setInputElement;
 
                for (var i = 0; i < setList.childElementCount - 1; i++){
-                   let child = setList.children[i];
+                   let child = setList.children[i].children[0];
                    child.value = valueList[i];
                }
            }
 
            function removeInput(element){
-
+               element.parentElement.remove();
            }
 
         </script>
@@ -78,15 +107,18 @@
                 </div>
 
                 <div class="col bg-light-subtle">
+                    <div class="row"><input type="text" id="vennName" class="m-1"></div>
                     <div class="row">
                         <!-- Sets -->
                         <div  class="col">
-                            <div id="setsList" class="row">
-                                <input type="text" value="A">
-                            </div>
+                            <div class="row"><p class="col">Name</p><p class="col">Size</p></div>
+                            <div id="setsList" class="row"></div>
                         </div>
                         <!-- Intersections -->
-                        <div id="interList" class="col"></div>
+                        <div class="col">
+                            <div class="row"><p class="col">Intersection</p><p class="col">Size</p></div>
+                            <div id="interList" class="col"></div>
+                        </div>
                     </div>
                     <div class="row text-center">
                         <div class="col"><button type="button" onclick="addInput('setsList')" class="btn btn-primary">Add Set</button></div>
@@ -97,8 +129,10 @@
 
                 <div class="row text-center">
                     <div class="col">
-                        <button onclick="update()" class="btn btn-outline-secondary">Update</button>
+                        <button onclick="update()" type="button" class="btn btn-outline-secondary">Update</button>
                     </div>
+                    <div class="col"><button onclick="saveVenn()" type="button">Save</button></div>
+
                 </div>
 
             </div>

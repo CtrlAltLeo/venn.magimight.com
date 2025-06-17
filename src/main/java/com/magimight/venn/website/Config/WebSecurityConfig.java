@@ -32,8 +32,8 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.
-                authorizeHttpRequests((requests) ->
+        http
+                .authorizeHttpRequests((requests) ->
                         requests
                                 .requestMatchers("/admin/**").hasAuthority("CREATE_DELETE")
                                 .requestMatchers("/admindata/**").hasAnyAuthority("CREATE", "CREATE_DELETE")
