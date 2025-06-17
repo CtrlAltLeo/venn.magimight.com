@@ -7,7 +7,7 @@
         <script>
            // Cool code goes here. Maybe put this under .js
 
-           let setInputElement = "<input type='text'>"
+           let setInputElement = "<input type='text' >"
 
            class _set {
                constructor(sets, size) {
@@ -44,20 +44,25 @@
                d3.select("#venn").datum(sets).call(chart);
            }
 
-           function addSet(){
-                /* Add some code here to save the value to the HTML so it doesn't get overwritten
-               let setList = document.getElementById("setsList");
+           function addInput(strListId){
+               let setList = document.getElementById(strListId);
+               let valueList = [];
 
-               for (var child in setList.children){
-
+               for (var i = 0; i < setList.childElementCount; i++){
+                    let child = setList.children[i];
+                    valueList[i] = child.value;
                }
-                */
 
-               document.getElementById("setsList").innerHTML += setInputElement;
+               setList.innerHTML += setInputElement;
+
+               for (var i = 0; i < setList.childElementCount - 1; i++){
+                   let child = setList.children[i];
+                   child.value = valueList[i];
+               }
            }
 
-           function addIntersection(){
-               document.getElementById("interList").innerHTML += setInputElement;
+           function removeInput(element){
+
            }
 
         </script>
@@ -84,8 +89,8 @@
                         <div id="interList" class="col"></div>
                     </div>
                     <div class="row text-center">
-                        <div class="col"><button onclick="addSet()" class="btn btn-primary">Add Set</button></div>
-                        <div class="col"><button onclick="addIntersection()" class="btn btn-outline-info">Add Intersectoin</button></div>
+                        <div class="col"><button type="button" onclick="addInput('setsList')" class="btn btn-primary">Add Set</button></div>
+                        <div class="col"><button onclick="addInput('interList')" class="btn btn-outline-info">Add Intersectoin</button></div>
                     </div>
 
                 </div>
