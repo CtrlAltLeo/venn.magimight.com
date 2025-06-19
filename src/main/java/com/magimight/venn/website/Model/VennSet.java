@@ -8,6 +8,6 @@ import java.util.List;
 @Getter
 @Setter
 public class VennSet {
-    List<Character> sets;
+    List<String> sets;
     int size;
 }

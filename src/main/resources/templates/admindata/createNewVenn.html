@@ -43,10 +43,15 @@
 
                let payload = JSON.stringify(vennModel);
 
-               console.log(payload);
+               console.log(document.cookie.split("=")[1]);
 
                fetch("./create/venn", {
+                   headers: {
+                       'Content-Type': 'application/json',
+                       'X-XSRF-TOKEN': document.cookie.split("=")[1]
+                   },
                    method: "post",
+                   credentials: "include",
                    body : payload
                });
            }
@@ -97,6 +102,8 @@
         </script>
     </head>
     <body onload="init()">
+
+        <input type="hidden" th:value="${session._csrf}" onload="alert(this.value)"/>
 
         <main class="container card bg-gradient-">
 
