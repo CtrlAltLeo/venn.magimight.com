@@ -17,7 +17,12 @@ public class AdminDataController {
     private DataService dataService;
 
     @PostMapping("/create/venn")
-    void createNewVenn(@Valid @RequestBody VennModel vennModel) {
-        dataService.saveVenn(vennModel);
+    VennModel createNewVenn(@Valid @RequestBody VennModel vennModel) {
+        return dataService.saveVenn(vennModel);
+    }
+
+    @PostMapping("/update/venn")
+    VennModel updateVenn(@Valid @RequestBody VennModel vennModel) {
+        return dataService.updateVenn(vennModel);
     }
 }

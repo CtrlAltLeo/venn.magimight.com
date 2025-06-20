@@ -14,8 +14,7 @@ public class RootData {
     @Id
     protected String id;
     protected String name;
-    @DBRef
-    protected AdminModel creator;
+    protected String creatorEmail;
     protected Date creationDate;
     protected int rank;
 

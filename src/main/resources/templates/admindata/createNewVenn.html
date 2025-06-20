@@ -17,9 +17,10 @@
            }
 
            class VennModel {
-               constructor(name, sets) {
+               constructor(name, sets, email) {
                    this.name = name;
                    this.sets = sets;
+                   this.creatorEmail = email;
                }
            }
 
@@ -37,23 +38,43 @@
                d3.select("#venn").datum(sets).call(chart);
            }
 
-           function saveVenn(){
+           async function saveVenn() {
+
+               let url = "./create/venn";
+
+               console.log(document.getElementById("vennDiagramId").value);
+
+               if (document.getElementById("vennDiagramId").value !== "EMPTY"){
+                    url = "./update/venn";
+               }
+
+               console.log(url);
+
                let sets = getSets();
-               let vennModel = new VennModel(document.getElementById("vennName").value, sets)
+               let vennModel = new VennModel(
+                   document.getElementById("vennName").value,
+                   sets,
+                   document.getElementById("creatorEmail").value)
 
                let payload = JSON.stringify(vennModel);
 
-               console.log(document.cookie.split("=")[1]);
-
-               fetch("./create/venn", {
+               const res = await fetch(url, {
                    headers: {
                        'Content-Type': 'application/json',
                        'X-XSRF-TOKEN': document.cookie.split("=")[1]
                    },
                    method: "post",
                    credentials: "include",
-                   body : payload
+                   body: payload
                });
+
+               let resJson = await res.json();
+
+               console.log(resJson.id);
+
+               document.getElementById("vennDiagramId").value = resJson.id;
+
+               alert("Saved Venn!");
            }
 
            function getSets(){
@@ -62,23 +83,18 @@
                let interParent = document.getElementById("interList")
 
                for (var i = 0; i < setParent.childElementCount; i++){
-                   console.log(i);
                    sets[i] = new _set([setParent.children[i].children[0].value], setParent.children[i].children[1].value);
                }
 
-               console.log("Down with sets");
-
                for (var i = 0; i < interParent.childElementCount; i++){
-                   console.log(i);
                    sets[setParent.childElementCount + i] = new _set(interParent.children[i].children[0].value.split(","), interParent.children[i].children[1].value);
                }
-
-               console.log("down with intersectsoin");
 
                return sets;
            }
 
            function addInput(strListId){
+               <!-- Better solutoin: recreate html from scratch. more steps but less arrays -->
                let setList = document.getElementById(strListId);
                let valueList = [];
 
@@ -103,7 +119,8 @@
     </head>
     <body onload="init()">
 
-        <input type="hidden" th:value="${session._csrf}" onload="alert(this.value)"/>
+        <input id="creatorEmail" type="hidden" th:value="${session.email}">
+        <input id="vennDiagramId" type="hidden" value="EMPTY">
 
         <main class="container card bg-gradient-">
 
