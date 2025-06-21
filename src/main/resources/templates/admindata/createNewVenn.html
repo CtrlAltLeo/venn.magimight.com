@@ -7,7 +7,18 @@
         <script>
            // Cool code goes here. Maybe put this under .js
 
-           let setInputElement = "<div class='row'><input type='text' class='col-6' ><input class='col' type='number'><button class='btn btn-outline-danger mx-1 col-auto' type='button' onclick='removeInput(this)'>Trash</button></div>"
+           let setInputElement = "<div class='row'>" +
+               "<input type='text' class='col-6'>" +
+               "<input class='col' type='number'>" +
+               "<button class='btn btn-outline-danger mx-1 col-auto' type='button' onclick='removeInput(this)'>Trash</button>" +
+               "</div>";
+
+           let interInputElement = "<div class='row'>" +
+               "<input type='text' class='col-6' >" +
+               "<input type='text' class='col-3'>" +
+               "<input class='col' type='number'>" +
+               "<button class='btn btn-outline-danger mx-1 col-auto' type='button' onclick='removeInput(this)'>Trash</button>" +
+               "</div>";
 
            class _set {
                constructor(sets, size) {
@@ -17,6 +28,10 @@
            }
 
            class VennModel {
+
+               id;
+               label;
+
                constructor(name, sets, email) {
                    this.name = name;
                    this.sets = sets;
@@ -24,8 +39,20 @@
                }
            }
 
+           class INPUT_TYPES {
+               static SET = "setsList";
+               static INTER = "interList";
+           }
+
            function init(){
-               var sets = [new _set(["A"], 10), new _set(["B"], 10), new _set(["A", "B"], 3)];
+
+               let vennId = document.getElementById("vennDiagramId").value;
+               if (vennId === "EMTPY"){
+                   var sets = [new _set(["A"], 10), new _set(["B"], 10), new _set(["A", "B"], 3)];
+               } else {
+                   //fetch data for loaded venn from db
+               }
+
 
                var chart = venn.VennDiagram();
                d3.select("#venn").datum(sets).call(chart);
@@ -39,24 +66,23 @@
            }
 
            async function saveVenn() {
-
-               let url = "./create/venn";
-
-               console.log(document.getElementById("vennDiagramId").value);
-
-               if (document.getElementById("vennDiagramId").value !== "EMPTY"){
-                    url = "./update/venn";
-               }
-
-               console.log(url);
-
                let sets = getSets();
                let vennModel = new VennModel(
                    document.getElementById("vennName").value,
                    sets,
                    document.getElementById("creatorEmail").value)
 
+               let url = "./create/venn";
+
+//               console.log(document.getElementById("vennDiagramId").value);
+
+               if (document.getElementById("vennDiagramId").value !== "EMPTY"){
+                    url = "./update/venn";
+                    vennModel.id = document.getElementById("vennDiagramId").value;
+               }
+
                let payload = JSON.stringify(vennModel);
+               console.log(payload);
 
                const res = await fetch(url, {
                    headers: {
@@ -87,7 +113,8 @@
                }
 
                for (var i = 0; i < interParent.childElementCount; i++){
-                   sets[setParent.childElementCount + i] = new _set(interParent.children[i].children[0].value.split(","), interParent.children[i].children[1].value);
+                   sets[setParent.childElementCount + i] = new _set(interParent.children[i].children[0].value.split(","), interParent.children[i].children[2].value);
+                   sets[setParent.childElementCount + i].label = interParent.children[i].children[1].value;
                }
 
                return sets;
@@ -95,19 +122,42 @@
 
            function addInput(strListId){
                <!-- Better solutoin: recreate html from scratch. more steps but less arrays -->
+               let INTERTYPE = false;
                let setList = document.getElementById(strListId);
                let valueList = [];
-
-               for (var i = 0; i < setList.childElementCount; i++){
-                    let child = setList.children[i].children[0];
-                    valueList[i] = child.value;
+               let sizeList = [];
+               let labelList = [];
+               if (strListId === INPUT_TYPES.INTER){
+                   INTERTYPE = true;
                }
 
-               setList.innerHTML += setInputElement;
+               for (var i = 0; i < setList.childElementCount; i++){
+                    let inputRoot = setList.children[i];
+
+                    valueList[i] = inputRoot.children[0].value;
+                    if (INTERTYPE) {
+                        labelList[i] = inputRoot.children[1].value;
+                        sizeList[i] = inputRoot.children[2].value;
+                    } else {
+                        sizeList[i] = inputRoot.children[1].value;
+                    }
+               }
+
+               if (INTERTYPE) {
+                  setList.innerHTML += interInputElement;
+               } else {
+                   setList.innerHTML += setInputElement;
+               }
 
                for (var i = 0; i < setList.childElementCount - 1; i++){
-                   let child = setList.children[i].children[0];
-                   child.value = valueList[i];
+                   let inputRoot = setList.children[i];
+                   inputRoot.children[0].value = valueList[i];
+                    if (INTERTYPE) {
+                        inputRoot.children[1].value = labelList[i]
+                        inputRoot.children[2].value = sizeList[i];
+                    } else {
+                        inputRoot.children[1].value = sizeList[i]
+                    }
                }
            }
 
@@ -120,7 +170,7 @@
     <body onload="init()">
 
         <input id="creatorEmail" type="hidden" th:value="${session.email}">
-        <input id="vennDiagramId" type="hidden" value="EMPTY">
+        <input id="vennDiagramId" type="hidden" th:value="${vennDiagramId}">
 
         <main class="container card bg-gradient-">
 
@@ -145,8 +195,8 @@
                         </div>
                     </div>
                     <div class="row text-center">
-                        <div class="col"><button type="button" onclick="addInput('setsList')" class="btn btn-primary">Add Set</button></div>
-                        <div class="col"><button onclick="addInput('interList')" class="btn btn-outline-info">Add Intersectoin</button></div>
+                        <div class="col"><button type="button" onclick="addInput(INPUT_TYPES.SET)" class="btn btn-primary">Add Set</button></div>
+                        <div class="col"><button onclick="addInput(INPUT_TYPES.INTER)" class="btn btn-outline-info">Add Intersectoin</button></div>
                     </div>
 
                 </div>
@@ -155,7 +205,10 @@
                     <div class="col">
                         <button onclick="update()" type="button" class="btn btn-outline-secondary">Update</button>
                     </div>
-                    <div class="col"><button onclick="saveVenn()" type="button">Save</button></div>
+                    <div class="col"><button onclick="saveVenn()" type="button" class="btn btn-outline-success">Save</button></div>
+                    <div class="col">
+                        <a class="btn btn-outline-danger" th:href="@{/}" onclick="return confirm('Really Exit? Unsaved Changed will be FUCKED UP!')">Return Home</a>
+                    </div>
 
                 </div>
 

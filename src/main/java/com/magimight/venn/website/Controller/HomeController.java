@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/")
 public class HomeController {
@@ -62,7 +64,12 @@ public class HomeController {
     }
 
     @GetMapping("/admindata/create")
-    public String createNewVenn(){
+    public String createNewVenn(@RequestParam Optional<String> id, Model model) throws Exception {
+        if (id.isPresent()){
+            model.addAttribute("vennDiagramId", id.get());
+        } else {
+            model.addAttribute("vennDiagramId", "EMPTY");
+        }
         return "/admindata/createNewVenn";
     }
 
