@@ -4,10 +4,9 @@ import com.magimight.venn.website.Model.VennModel;
 import com.magimight.venn.website.Service.DataService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admindata")
@@ -15,6 +14,11 @@ public class AdminDataController {
 
     @Autowired
     private DataService dataService;
+
+    @GetMapping("/list/venn")
+    List<VennModel> getAllVenns(){
+        return dataService.getAllVenns();
+    }
 
     @PostMapping("/create/venn")
     VennModel createNewVenn(@Valid @RequestBody VennModel vennModel) {
@@ -24,5 +28,10 @@ public class AdminDataController {
     @PostMapping("/update/venn")
     VennModel updateVenn(@Valid @RequestBody VennModel vennModel) {
         return dataService.updateVenn(vennModel);
+    }
+
+    @DeleteMapping("/venn")
+    void deleteVenn(@RequestParam String id) {
+        dataService.deleteVenn(id);
     }
 }

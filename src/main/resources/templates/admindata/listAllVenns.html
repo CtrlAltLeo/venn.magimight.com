@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Venn List</title>
+        <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+        <script src="/js/bootstrap.bundle.min.js"></script>
+        <script>
+            async function delete_venn(id) {
+                await fetch("/admindata/venn?id=" + id, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-XSRF-TOKEN': document.cookie.split("=")[1]
+                    },
+                    method: "delete"
+                });
+                location.reload();
+            }
+        </script>
+    </head>
+    <body>
+        <div th:insert="~{snippets/navbar}"></div>
+        <main class="container">
+            <h1>Venn List</h1>
+            <table class="table table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th>Author</th>
+                    <th>Creation Date</th>
+                    <th>Options</th>
+                </tr>
+                <tr th:each="venn : ${vennList}">
+                    <td th:text="${venn.name}"></td>
+                    <td th:text="${venn.creatorEmail}"></td>
+                    <td th:text="${venn.creationDate}"></td>
+                    <td class="row">
+                        <a class="btn btn-success col-auto mx-2" th:href="@{/venn(id=${venn.id})}">View</a>
+                        <a class="btn btn-primary col-auto mx-2" th:href="@{/admindata/create(id=${venn.id})}">Edit</a>
+                        <button type="submit" class="btn btn-danger col-auto" th:data-id="${venn.id}" onclick="if (confirm('Really Delete?')){delete_venn(this.getAttribute('data-id'))}">Delete</button>
+                    </td>
+                </tr>
+            </table>
+
+        </main>
+    </body>
+</html>

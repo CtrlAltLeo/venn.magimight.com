@@ -2,14 +2,16 @@
     <head>
         <title>Home</title>
         <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+        <script src="/js/bootstrap.bundle.min.js"></script>
         <script src="/js/d3.v7.min.js"></script>
         <script src="/js/venn.js"></script>
         <script>
-           // Cool code goes here. Maybe put this under .js
+
+            const getVennUrl = "/data/venn?id=";
 
            let setInputElement = "<div class='row'>" +
                "<input type='text' class='col-6'>" +
-               "<input class='col' type='number'>" +
+               "<input class='col-2' type='number'>" +
                "<button class='btn btn-outline-danger mx-1 col-auto' type='button' onclick='removeInput(this)'>Trash</button>" +
                "</div>";
 
@@ -26,7 +28,6 @@
                    this.size = size;
                }
            }
-
            class VennModel {
 
                id;
@@ -38,21 +39,30 @@
                    this.creatorEmail = email;
                }
            }
-
            class INPUT_TYPES {
                static SET = "setsList";
                static INTER = "interList";
            }
 
-           function init(){
+           async function init() {
+
+               var sets;
 
                let vennId = document.getElementById("vennDiagramId").value;
-               if (vennId === "EMTPY"){
-                   var sets = [new _set(["A"], 10), new _set(["B"], 10), new _set(["A", "B"], 3)];
+               if (vennId === "EMPTY") {
+                   sets = [new _set(["A"], 10), new _set(["B"], 10), new _set(["A", "B"], 3)];
                } else {
                    //fetch data for loaded venn from db
+                   console.log(getVennUrl.concat(vennId.toString()))
+                   await fetch(getVennUrl.concat(vennId.toString()))
+                       .then((response) => response.json())
+                       .then((data) => {
+                           console.log(data);
+                           sets = data.sets;
+                           document.getElementById("vennName").value = data.name;
+                           createInputFromJson();
+                       });
                }
-
 
                var chart = venn.VennDiagram();
                d3.select("#venn").datum(sets).call(chart);
@@ -120,6 +130,10 @@
                return sets;
            }
 
+           function createInputFromJson(){
+
+           }
+
            function addInput(strListId){
                <!-- Better solutoin: recreate html from scratch. more steps but less arrays -->
                let INTERTYPE = false;
@@ -169,10 +183,12 @@
     </head>
     <body onload="init()">
 
+        <div th:insert="~{snippets/navbar}"></div>
+
         <input id="creatorEmail" type="hidden" th:value="${session.email}">
         <input id="vennDiagramId" type="hidden" th:value="${vennDiagramId}">
 
-        <main class="container card bg-gradient-">
+        <main class="container-fluid card bg-gradient-">
 
             <div class="row">
 
@@ -180,7 +196,7 @@
                     <div id="venn"></div>
                 </div>
 
-                <div class="col bg-light-subtle">
+                <div class="col-auto bg-light-subtle">
                     <div class="row"><input type="text" id="vennName" class="m-1"></div>
                     <div class="row">
                         <!-- Sets -->
@@ -190,7 +206,7 @@
                         </div>
                         <!-- Intersections -->
                         <div class="col">
-                            <div class="row"><p class="col">Intersection</p><p class="col">Size</p></div>
+                            <div class="row"><p class="col">Intersection</p><p class="col">Label</p><p class="col">Size</p></div>
                             <div id="interList" class="col"></div>
                         </div>
                     </div>
@@ -207,7 +223,7 @@
                     </div>
                     <div class="col"><button onclick="saveVenn()" type="button" class="btn btn-outline-success">Save</button></div>
                     <div class="col">
-                        <a class="btn btn-outline-danger" th:href="@{/}" onclick="return confirm('Really Exit? Unsaved Changed will be FUCKED UP!')">Return Home</a>
+                        <a class="btn btn-outline-danger" th:href="@{/}" onclick="return confirm('Really Exit? Unsaved Changed will be lost forever (a long time!)')">Return Home</a>
                     </div>
 
                 </div>

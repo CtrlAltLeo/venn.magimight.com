@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -57,6 +58,15 @@ public class DataService {
         } else {
             return null;
         }
+    }
+
+    public List<VennModel> getAllVenns() {
+        return vennRepository.findAll();
+    }
+
+    public void deleteVenn(String id) {
+        Optional<VennModel> venn = getVenn(id);
+        venn.ifPresent(vennModel -> vennRepository.delete(vennModel));
     }
 
     // Get top 10 venns

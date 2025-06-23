@@ -18,9 +18,7 @@
           fetch(url.concat(vennId.value.toString()))
               .then((response) => response.json())
               .then((data) => {
-                  let title = document.getElementById("venntitle");
-                  title.innerHTML = data.name;
-
+                  document.title = data.name;
                   var chart = venn.VennDiagram();
                   d3.select("#venn").datum(data.sets).call(chart);
               });
@@ -29,6 +27,7 @@
 
 </head>
 <body onload="ready()">
+<div th:insert="~{snippets/navbar}"></div>
 
 <input id="vennid" name="vennid" type="hidden" th:value="${vennid}"/>
 

@@ -28,6 +28,9 @@ public class HomeController {
             UserDetails user = (UserDetails) authentication.getPrincipal();
             model.addAttribute("activeUser", user.getUsername());
         }
+
+
+
         return "home";
     }
 
@@ -71,6 +74,12 @@ public class HomeController {
             model.addAttribute("vennDiagramId", "EMPTY");
         }
         return "/admindata/createNewVenn";
+    }
+
+    @GetMapping("/admindata/list")
+    public String listVenn(Model model) {
+        model.addAttribute("vennList", dataService.getAllVenns());
+        return "/admindata/listAllVenns";
     }
 
 }
