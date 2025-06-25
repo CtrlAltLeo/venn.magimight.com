@@ -9,10 +9,10 @@ Non-Admin users can browse public data. Data Club admins can create venns and li
 ## Technical Specifications
 - Languages: Java, html/css/js
 - Featured Frameworks/Libraries: Spring Boot with Spring Data, Web and Security, Thymeleaf, Lombok
+- Front End Frameworks: Bootstrap 5, venn.js, d3.js
 - Database: MongoDB
 - Cloud Hosting: Heroku
 - Source Control: CLI Git integrating with GitHub
 - Project Management: Codecks and Obsidian
 - CI/CD: Heroku Pipeline with Github Integration
 - Tools: IntelliJ, MongoDB Compass, Postman
-

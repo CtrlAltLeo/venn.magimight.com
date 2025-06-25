@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <title th:text="${name}"></title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/d3.v7.min.js"></script>
+    <script src="/js/venn.js"></script>
+    <script>
+
+      //Hello World, or should I say venn :)))))
+
+      function ready(){
+          //SANITISE THISSSSSS VVVV
+          let vennId = document.getElementById("vennid");
+          let url = "./data/venn?id=";
+
+          fetch(url.concat(vennId.value.toString()))
+              .then((response) => response.json())
+              .then((data) => {
+                  document.title = data.name;
+                  var chart = venn.VennDiagram();
+                  d3.select("#venn").datum(data.sets).call(chart);
+              });
+      }
+     </script>
+
+</head>
+<body onload="ready()">
+<div th:insert="~{snippets/navbar}"></div>
+
+<input id="vennid" name="vennid" type="hidden" th:value="${vennid}"/>
+
+<main class="container-fluid">
+
+    <div class="container">
+        <div class="card shadow-lg m-5">
+            <div class="card-header"><h2 id="venntitle"></h2></div>
+            <div class="row card-body">
+                <div id="venn" class="col-auto m-auto p-2 img-fluid"></div>
+                <div class="col">Nutrition Facts</div>
+            </div>
+            <div class="row p-2 m-auto">
+                <a th:href="@{/}" class="card-link col m-auto">Return Home</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+</body>
+</html>

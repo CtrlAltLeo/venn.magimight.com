@@ -1,9 +1,54 @@
 <html>
     <head>
-
+        <title>Home</title>
+        <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+        <script src="/js/bootstrap.bundle.min.js"></script>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <h2>I love you</h2>
+        <div th:insert="~{snippets/navbar}"></div>
+
+        <main class="container">
+            <!--
+            <p th:if="${activeUser != ''}">Hey again <span th:text="${activeUser}"></span></p>
+            <p th:if="${session.email != ''}" th:text="${session.email}">Hungry ass</p>
+            -->
+
+            <!-- Welcome Splash -->
+            <div class="card shadow-lg my-3 p-3">
+                <div class="row">
+                    <div class="col-auto">
+                        Venn Goes Here
+                    </div>
+                    <div class="col">
+                        <h3>Welcome to venn.magimight.com!</h3>
+                        <button type="button" class="btn btn-outline-success">Create New Venn</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-3">
+                <div class="col">
+                    <div class="card shadow-lg">
+                        <div class="card-header">The Hotness</div>
+                        <div class="card-body">
+                            <table class="table">
+                                <tr>
+                                    <a th:href="@{./venn?id=68573235cca69a2020de85be}">Funny Silly Venn</a>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col">
+                    <div class="card shadow-lg">
+                        The Freshness
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+
     </body>
 </html>

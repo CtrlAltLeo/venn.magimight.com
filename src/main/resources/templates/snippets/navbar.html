@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-primary-subtle">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">venn.magimight.com</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/venn?id=683e24d5e0e1ec02f2cbf80a}">Venn Diagrams</a>
+                </li>
+
+                 <!-- Admin Dropdown list -->
+                <li th:if="${session.email != null}" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Data Admin
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{/admindata/create}">Create New Venn</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admindata/list}">Venn List</a></li>
+                    </ul>
+                </li>
+
+                <!-- User Admin DDL -->
+                <li th:if="${session.email != null}" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        User Admin
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{/admin/new}">Create New User</a></li>
+                        <li><a class="dropdown-item" href="#">User List</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            <div class="row mx-1">
+                <p th:text="${session.email}" class="col my-auto"></p>
+                <a th:href="@{/login}" th:if="${session.email == null}" class="btn btn-outline-info col">Login</a>
+                <form class="col my-auto" method="post" th:action="@{/logout}">
+                    <input type="submit" th:if="${session.email != null}" class="btn btn-outline-danger" value="Logout">
+                </form>
+            </div>
+        </div>
+    </div>
+</nav>

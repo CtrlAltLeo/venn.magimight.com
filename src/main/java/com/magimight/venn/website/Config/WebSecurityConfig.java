@@ -13,6 +13,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @EnableWebSecurity
 @Configuration
@@ -21,25 +24,27 @@ public class WebSecurityConfig {
     @Autowired
     private UserService userService;
 
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        return daoAuthenticationProvider;
-    }
+//    @Bean
+//    public AuthenticationProvider authenticationProvider() {
+//        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+//        daoAuthenticationProvider.setUserDetailsService(userService);
+//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+//        return daoAuthenticationProvider;
+//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.
-                authorizeHttpRequests((requests) ->
-                        requests
-                                .requestMatchers("/admin/**", "/admindata/delete/**").authenticated()
-                                .requestMatchers("/admindata/create/**").authenticated()
-                                .anyRequest().permitAll())
-                .formLogin(Customizer.withDefaults());
-                //Change this back to custom form login page
+        http
+            .csrf((csrf) -> csrf
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                    .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
+            .authorizeHttpRequests((requests) ->
+                requests
+                .requestMatchers("/admin/**").hasAuthority("CREATE_DELETE")
+                .requestMatchers("/admindata/**").hasAnyAuthority("CREATE", "CREATE_DELETE")
+                .anyRequest().permitAll())
+            .formLogin((form) -> form.loginPage("/login").successHandler(new CustomAuthenticationSuccessHandler()));
 
         return http.build();
     }

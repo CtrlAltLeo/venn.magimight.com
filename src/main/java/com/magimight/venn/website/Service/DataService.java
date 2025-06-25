@@ -4,11 +4,13 @@ import com.magimight.venn.website.Model.AdminModel;
 import com.magimight.venn.website.Model.VennModel;
 import com.magimight.venn.website.Model.VennSet;
 import com.magimight.venn.website.Repository.VennRepository;
+import jakarta.validation.Valid;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,6 +30,9 @@ public class DataService {
 
     public VennModel saveVenn(VennModel vennModel){
         log.info(vennModel.toString());
+
+        vennModel.setCreationDate(new Date());
+
         return vennRepository.save(vennModel);
     }
 
@@ -36,15 +41,32 @@ public class DataService {
        vennModel.setName("My Dummy Venn");
        vennRepository.save(vennModel);
 
-        Optional<AdminModel> adminModel = adminService.getAdminByEmail("leodevick@gmail.com");
-
-        System.out.println(adminModel);
-
-        if (adminModel.isPresent()) {
-            vennModel.setCreator(adminModel.get());
-        }
-
        System.out.println("Venn created");
+    }
+
+    public boolean doesVennExist(String id){
+        return vennRepository.existsById(id);
+    }
+
+    public VennModel updateVenn(@Valid VennModel vennModel) {
+        Optional<VennModel> venn = getVenn(vennModel.getId());
+        if (venn.isPresent()){
+            VennModel retrievedVenn = venn.get();
+            retrievedVenn.setName(vennModel.getName());
+            retrievedVenn.setSets(vennModel.getSets());
+            return vennRepository.save(retrievedVenn);
+        } else {
+            return null;
+        }
+    }
+
+    public List<VennModel> getAllVenns() {
+        return vennRepository.findAll();
+    }
+
+    public void deleteVenn(String id) {
+        Optional<VennModel> venn = getVenn(id);
+        venn.ifPresent(vennModel -> vennRepository.delete(vennModel));
     }
 
     // Get top 10 venns
