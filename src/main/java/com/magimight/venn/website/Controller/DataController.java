@@ -6,6 +6,7 @@ import com.magimight.venn.website.Service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,6 +24,16 @@ public class DataController {
     @GetMapping("/dummy")
     void createDummy(){
         dataService.createDummyVenn();
+    }
+
+    @GetMapping("/hotness")
+    List<VennModel> getHotness(){
+        return dataService.getHotness();
+    }
+
+    @GetMapping("/freshness")
+    List<VennModel> getFreshness(){
+        return dataService.getFreshness();
     }
 
 }

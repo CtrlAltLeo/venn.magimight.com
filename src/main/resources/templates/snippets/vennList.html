@@ -1,0 +1,39 @@
+<div th:fragment="vennList(endpoint)">
+
+    <input type="hidden" id="endpoint" name="endpoint" th:value="${endpoint}"/>
+
+    <script th:inline="javascript">
+
+        function load(){
+            let url = "/data/" + document.getElementById("endpoint").value;
+            let dataTableId = document.getElementById("endpoint").value;
+            console.log(url);
+
+            fetch(url)
+                .then((response) => response.json())
+                .then((data) => {
+
+                    let tableHead = "<table class='table'><tr><th>Venns</th></tr>";
+
+                    for (venn in data){
+                        console.log(venn);
+                        tableHead += "<tr><td><a href='./venn?id=" + venn.id + "'>" + venn.name +  "</a></td></tr>";
+                    }
+
+                    tableHead += "</table>";
+
+                    console.log(tableHead);
+
+                    document.getElementById(dataTableId).innerHTML = tableHead;
+                });
+
+        }
+
+        load();
+    </script>
+
+    <div th:id="${endpoint}">
+        <p th:text="${endpoint}"></p>
+    </div>
+
+</div>

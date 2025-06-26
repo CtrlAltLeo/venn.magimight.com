@@ -3,6 +3,8 @@
         <title>Home</title>
         <link rel="stylesheet" href="/css/bootstrap.min.css"/>
         <script src="/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/d3.v7.min.js"></script>
+        <script src="/js/venn.js"></script>
     </head>
     <body>
         <div onload="load()" th:insert="~{snippets/navbar}"></div>
@@ -12,13 +14,12 @@
             <p th:if="${activeUser != ''}">Hey again <span th:text="${activeUser}"></span></p>
             <p th:if="${session.email != ''}" th:text="${session.email}">Hungry ass</p>
             -->
-            <div th:insert="~{snippets/vennDisplay('Ahoy')}"></div>
 
             <!-- Welcome Splash -->
             <div class="card shadow-lg my-3 p-3">
                 <div class="row">
                     <div class="col-auto">
-                        Venn Goes Here
+                        <div th:insert="~{snippets/vennDisplay('6859e45c6a569459628a84b8')}"></div>
                     </div>
                     <div class="col">
                         <h3>Welcome to venn.magimight.com!</h3>
@@ -32,18 +33,19 @@
                     <div class="card shadow-lg">
                         <div class="card-header">The Hotness</div>
                         <div class="card-body">
-                            <table class="table">
-                                <tr>
-                                    <a th:href="@{./venn?id=68573235cca69a2020de85be}">Funny Silly Venn</a>
-                                </tr>
-                            </table>
+                            <div th:insert="~{snippets/vennList('hotness')}"></div>
                         </div>
                     </div>
 
                 </div>
                 <div class="col">
                     <div class="card shadow-lg">
-                        The Freshness
+                        <div class="card-header">The Freshness</div>
+                        <div class="card-body">
+                            <!--
+                            <div th:insert="~{snippets/vennList('freshness')}"></div>
+                            -->
+                        </div>
                     </div>
                 </div>
             </div>

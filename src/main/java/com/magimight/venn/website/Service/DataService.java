@@ -69,6 +69,14 @@ public class DataService {
         venn.ifPresent(vennModel -> vennRepository.delete(vennModel));
     }
 
+    public List<VennModel> getHotness() {
+        return vennRepository.findTop10ByOrderByCreationDateDesc();
+    }
+
+    public List<VennModel> getFreshness() {
+        return vennRepository.findTop10ByOrderByRankDesc();
+    }
+
     // Get top 10 venns
 
     // Get Recent venns
