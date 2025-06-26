@@ -1,0 +1,13 @@
+<div th:fragment="vennDisplay(msg)" onload="load()">
+
+    <input id="message" type="text" th:value="${msg}" onload="console.log('loaded input')" />
+
+    <script th:inline="javascript">
+        function load(){
+            alert(document.getElementById("message").value);
+            console.log("hello")
+        }
+
+        load();
+    </script>
+</div>
