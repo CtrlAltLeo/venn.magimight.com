@@ -5,21 +5,22 @@
         <script src="/js/bootstrap.bundle.min.js"></script>
         <script src="/js/d3.v7.min.js"></script>
         <script src="/js/venn.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
         <script>
 
             const getVennUrl = "/data/venn?id=";
 
            let setInputElement = "<div class='row'>" +
                "<input type='text' class='col-6'>" +
-               "<input class='col-2' type='number'>" +
-               "<button class='btn btn-outline-danger mx-1 col-auto' type='button' onclick='removeInput(this)'>Trash</button>" +
+               "<input class='col-2'  type='number'>" +
+               "<button class='btn btn-outline-danger mx-1 col-auto' type='button' onclick='removeInput(this)'><i class=\"bi bi-trash\"></i></button>" +
                "</div>";
 
            let interInputElement = "<div class='row'>" +
                "<input type='text' class='col-6' >" +
                "<input type='text' class='col-3'>" +
                "<input class='col' type='number'>" +
-               "<button class='btn btn-outline-danger mx-1 col-auto' type='button' onclick='removeInput(this)'>Trash</button>" +
+               "<button class='btn btn-outline-danger mx-1 col-auto' type='button' onclick='removeInput(this)'><i class='bi bi-trash'></i></button>" +
                "</div>";
 
            class _set {
@@ -83,11 +84,13 @@
                    document.getElementById("creatorEmail").value)
 
                let url = "./create/venn";
+               let saveMessage = "Successfully saved venn";
 
 //               console.log(document.getElementById("vennDiagramId").value);
 
                if (document.getElementById("vennDiagramId").value !== "EMPTY"){
                     url = "./update/venn";
+                    saveMessage = "Successfully updated venn"
                     vennModel.id = document.getElementById("vennDiagramId").value;
                }
 
@@ -110,7 +113,7 @@
 
                document.getElementById("vennDiagramId").value = resJson.id;
 
-               alert("Saved Venn!");
+               alert(saveMessage);
            }
 
            function getSets(){
@@ -130,8 +133,10 @@
                return sets;
            }
 
-           function createInputFromJson(){
+           function createInputFromJson(sets){
+                sets.forEach(function(venn, iter, array){
 
+                });
            }
 
            function addInput(strListId){
@@ -191,23 +196,22 @@
         <main class="container-fluid card bg-gradient-">
 
             <div class="row">
+                <div id="venn" class="col"></div>
+            </div>
 
-                <div class="col">
-                    <div id="venn"></div>
-                </div>
-
-                <div class="col-auto bg-light-subtle">
-                    <div class="row"><input type="text" id="vennName" class="m-1"></div>
+            <div class="row my-2">
+                <div class="col bg-light-subtle">
+                    <div class="row"><h3 class="col-auto">Name:</h3><input type="text" id="vennName" class=" col m-1"></div>
                     <div class="row">
                         <!-- Sets -->
                         <div  class="col">
                             <div class="row"><p class="col">Name</p><p class="col">Size</p></div>
-                            <div id="setsList" class="row"></div>
+                            <div id="setsList" class="border-dark-subtle"></div>
                         </div>
                         <!-- Intersections -->
                         <div class="col">
-                            <div class="row"><p class="col">Intersection</p><p class="col">Label</p><p class="col">Size</p></div>
-                            <div id="interList" class="col"></div>
+                            <div class="row"><p class="col-6">Intersection</p><p class="col">Label</p><p class="col">Size</p></div>
+                            <div id="interList" class="border-dark-subtle"></div>
                         </div>
                     </div>
                     <div class="row text-center">
@@ -217,7 +221,7 @@
 
                 </div>
 
-                <div class="row text-center">
+                <div class="row text-center my-2">
                     <div class="col">
                         <button onclick="update()" type="button" class="btn btn-outline-secondary">Update</button>
                     </div>

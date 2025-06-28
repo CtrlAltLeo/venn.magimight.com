@@ -1,0 +1,21 @@
+<div th:fragment="vennDisplay(venn)" onload="load()">
+    <input id="vennId" type="hidden" th:value="${venn}" />
+
+    <script th:inline="javascript">
+        function load(){
+            let url = "/data/venn?id=" + document.getElementById("vennId").value;
+            console.log(url);
+            fetch(url)
+                .then((response) => response.json())
+                .then((data) => {
+                    var chart = venn.VennDiagram();
+                    d3.select("#venn").datum(data.sets).call(chart);
+                })
+        }
+
+        load();
+    </script>
+    <div id="venn">
+
+    </div>
+</div>

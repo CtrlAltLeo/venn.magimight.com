@@ -3,9 +3,12 @@
         <title>Home</title>
         <link rel="stylesheet" href="/css/bootstrap.min.css"/>
         <script src="/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/d3.v7.min.js"></script>
+        <script src="/js/venn.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     </head>
     <body>
-        <div th:insert="~{snippets/navbar}"></div>
+        <div onload="load()" th:insert="~{snippets/navbar}"></div>
 
         <main class="container">
             <!--
@@ -15,13 +18,12 @@
 
             <!-- Welcome Splash -->
             <div class="card shadow-lg my-3 p-3">
-                <div class="row">
+                <div class="row align-items-center">
                     <div class="col-auto">
-                        Venn Goes Here
+                        <div th:insert="~{snippets/vennDisplay('6859e45c6a569459628a84b8')}"></div>
                     </div>
                     <div class="col">
-                        <h3>Welcome to venn.magimight.com!</h3>
-                        <button type="button" class="btn btn-outline-success">Create New Venn</button>
+                        <h3 class="my-1 display-5">Welcome to venn.magimight.com!</h3>
                     </div>
                 </div>
             </div>
@@ -31,18 +33,17 @@
                     <div class="card shadow-lg">
                         <div class="card-header">The Hotness</div>
                         <div class="card-body">
-                            <table class="table">
-                                <tr>
-                                    <a th:href="@{./venn?id=68573235cca69a2020de85be}">Funny Silly Venn</a>
-                                </tr>
-                            </table>
+                            <div th:insert="~{snippets/vennList('hotness', 'hot')}"></div>
                         </div>
                     </div>
 
                 </div>
                 <div class="col">
                     <div class="card shadow-lg">
-                        The Freshness
+                        <div class="card-header">The Freshness</div>
+                        <div class="card-body">
+                            <div th:insert="~{snippets/vennList('freshness','fresh')}"></div>
+                        </div>
                     </div>
                 </div>
             </div>
