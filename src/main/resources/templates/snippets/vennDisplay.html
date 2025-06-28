@@ -4,7 +4,6 @@
     <script th:inline="javascript">
         function load(){
             let url = "/data/venn?id=" + document.getElementById("vennId").value;
-            console.log(url);
             fetch(url)
                 .then((response) => response.json())
                 .then((data) => {

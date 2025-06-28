@@ -8,18 +8,14 @@
             const id = /*[[${id}]]*/ "id";
             let url = "/data/" + document.getElementById(id).value;
             let dataTableId = document.getElementById(id).value;
-            console.log(url);
 
             fetch(url)
                 .then((response) => response.json())
                 .then((data) => {
 
-                    console.log(data);
-
                     let tableHead = "<table class='table'>";
 
                     data.forEach(function(venn, index, array){
-                        console.log(venn);
                         tableHead += "<tr><td>" +
                             "<a href='./venn?id=" + venn.id + "'>" + venn.name +  "</a>" +
                             "<p>Created by "+ venn.creatorEmail +"</p>" +

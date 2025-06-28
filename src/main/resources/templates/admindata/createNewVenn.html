@@ -54,11 +54,9 @@
                    sets = [new _set(["A"], 10), new _set(["B"], 10), new _set(["A", "B"], 3)];
                } else {
                    //fetch data for loaded venn from db
-                   console.log(getVennUrl.concat(vennId.toString()))
                    await fetch(getVennUrl.concat(vennId.toString()))
                        .then((response) => response.json())
                        .then((data) => {
-                           console.log(data);
                            sets = data.sets;
                            document.getElementById("vennName").value = data.name;
                            createInputFromJson();
@@ -86,8 +84,6 @@
                let url = "./create/venn";
                let saveMessage = "Successfully saved venn";
 
-//               console.log(document.getElementById("vennDiagramId").value);
-
                if (document.getElementById("vennDiagramId").value !== "EMPTY"){
                     url = "./update/venn";
                     saveMessage = "Successfully updated venn"
@@ -95,7 +91,6 @@
                }
 
                let payload = JSON.stringify(vennModel);
-               console.log(payload);
 
                const res = await fetch(url, {
                    headers: {
@@ -108,8 +103,6 @@
                });
 
                let resJson = await res.json();
-
-               console.log(resJson.id);
 
                document.getElementById("vennDiagramId").value = resJson.id;
 
