@@ -1,6 +1,7 @@
 package com.magimight.venn.website.Controller;
 
 import com.magimight.venn.website.Model.AdminModel;
+import com.magimight.venn.website.Model.VennModel;
 import com.magimight.venn.website.Service.DataService;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
@@ -53,17 +54,17 @@ public class HomeController {
 
     @GetMapping("/venn")
     public String venn(@RequestParam String id, Model model) throws Exception {
-
-        //sanitise this input
-        if (dataService.doesVennExist(id)){
+        Optional<VennModel> venn = dataService.getVenn(id);
+        if (venn.isPresent()){
             model.addAttribute("vennid", id);
-            //This should be handed w/ JS
-            model.addAttribute("name", "Name of the Venn");
+            model.addAttribute("vennName", venn.get().getName());
+            model.addAttribute("creatorEmail", venn.get().getCreatorEmail());
+            model.addAttribute("creationDate", venn.get().getCreationDate());
+            model.addAttribute("updoots", venn.get().getRank());
             return "data/display_venn";
         } else {
             throw new Exception("MY BROTHER THIS VENN DOES NOT EXIST");
         }
-
     }
 
     @GetMapping("/admindata/create")
@@ -76,7 +77,7 @@ public class HomeController {
         return "/admindata/createNewVenn";
     }
 
-    @GetMapping("/admindata/list")
+    @GetMapping("/data/list")
     public String listVenn(Model model) {
         model.addAttribute("vennList", dataService.getAllVenns());
         return "/admindata/listAllVenns";
