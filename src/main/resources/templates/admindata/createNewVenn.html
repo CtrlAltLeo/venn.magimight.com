@@ -11,7 +11,7 @@
 
            let setInputElement = "<div class='row'>" +
                "<input type='text' class='col-6'>" +
-               "<input class='col-2' type='number'>" +
+               "<input class='col-2'  type='number'>" +
                "<button class='btn btn-outline-danger mx-1 col-auto' type='button' onclick='removeInput(this)'>Trash</button>" +
                "</div>";
 
@@ -83,11 +83,13 @@
                    document.getElementById("creatorEmail").value)
 
                let url = "./create/venn";
+               let saveMessage = "Successfully saved venn";
 
 //               console.log(document.getElementById("vennDiagramId").value);
 
                if (document.getElementById("vennDiagramId").value !== "EMPTY"){
                     url = "./update/venn";
+                    saveMessage = "Successfully updated venn"
                     vennModel.id = document.getElementById("vennDiagramId").value;
                }
 
@@ -110,7 +112,7 @@
 
                document.getElementById("vennDiagramId").value = resJson.id;
 
-               alert("Saved Venn!");
+               alert(saveMessage);
            }
 
            function getSets(){
@@ -130,8 +132,10 @@
                return sets;
            }
 
-           function createInputFromJson(){
+           function createInputFromJson(sets){
+                sets.forEach(function(venn, iter, array){
 
+                });
            }
 
            function addInput(strListId){

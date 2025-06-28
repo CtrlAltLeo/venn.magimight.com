@@ -17,12 +17,12 @@
 
             <!-- Welcome Splash -->
             <div class="card shadow-lg my-3 p-3">
-                <div class="row">
+                <div class="row align-items-center">
                     <div class="col-auto">
                         <div th:insert="~{snippets/vennDisplay('6859e45c6a569459628a84b8')}"></div>
                     </div>
                     <div class="col">
-                        <h3>Welcome to venn.magimight.com!</h3>
+                        <h3 class="my-1">Welcome to venn.magimight.com!</h3>
                         <button type="button" class="btn btn-outline-success">Create New Venn</button>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                     <div class="card shadow-lg">
                         <div class="card-header">The Hotness</div>
                         <div class="card-body">
-                            <div th:insert="~{snippets/vennList('hotness')}"></div>
+                            <div th:insert="~{snippets/vennList('hotness', 'hot')}"></div>
                         </div>
                     </div>
 
@@ -42,9 +42,7 @@
                     <div class="card shadow-lg">
                         <div class="card-header">The Freshness</div>
                         <div class="card-body">
-                            <!--
-                            <div th:insert="~{snippets/vennList('freshness')}"></div>
-                            -->
+                            <div th:insert="~{snippets/vennList('freshness','fresh')}"></div>
                         </div>
                     </div>
                 </div>

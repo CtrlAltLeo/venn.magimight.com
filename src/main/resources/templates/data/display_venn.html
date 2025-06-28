@@ -19,6 +19,8 @@
               .then((response) => response.json())
               .then((data) => {
                   document.title = data.name;
+                  document.getElementById("creatorEmail").innerHTML = data.creatorEmail;
+                  document.getElementById("creationDate").innerHTML = data.creationDate;
                   var chart = venn.VennDiagram();
                   d3.select("#venn").datum(data.sets).call(chart);
               });
@@ -38,7 +40,11 @@
             <div class="card-header"><h2 id="venntitle"></h2></div>
             <div class="row card-body">
                 <div id="venn" class="col-auto m-auto p-2 img-fluid"></div>
-                <div class="col">Nutrition Facts</div>
+                <div class="col">
+                    <h3 class="row mx-auto">Nutrition Facts</h3>
+                    <div class="row"><p class="col">Created by</p><p class="col" id="creatorEmail"></p></div>
+                    <div class="row"> <p class="col"> Created on </p><p id="creationDate"></p></div>
+                </div>
             </div>
             <div class="row p-2 m-auto">
                 <a th:href="@{/}" class="card-link col m-auto">Return Home</a>

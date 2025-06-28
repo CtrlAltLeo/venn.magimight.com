@@ -1,29 +1,32 @@
-<div th:fragment="vennList(endpoint)">
+<div th:fragment="vennList(endpoint, id)">
 
-    <input type="hidden" id="endpoint" name="endpoint" th:value="${endpoint}"/>
+    <input type="hidden" th:id="${id}" name="endpoint" th:value="${endpoint}"/>
 
     <script th:inline="javascript">
 
         function load(){
-            let url = "/data/" + document.getElementById("endpoint").value;
-            let dataTableId = document.getElementById("endpoint").value;
+            const id = /*[[${id}]]*/ "id";
+            let url = "/data/" + document.getElementById(id).value;
+            let dataTableId = document.getElementById(id).value;
             console.log(url);
 
             fetch(url)
                 .then((response) => response.json())
                 .then((data) => {
 
-                    let tableHead = "<table class='table'><tr><th>Venns</th></tr>";
+                    console.log(data);
 
-                    for (venn in data){
+                    let tableHead = "<table class='table'>";
+
+                    data.forEach(function(venn, index, array){
                         console.log(venn);
-                        tableHead += "<tr><td><a href='./venn?id=" + venn.id + "'>" + venn.name +  "</a></td></tr>";
-                    }
+                        tableHead += "<tr><td>" +
+                            "<a href='./venn?id=" + venn.id + "'>" + venn.name +  "</a>" +
+                            "<p>Created by "+ venn.creatorEmail +"</p>" +
+                            "</td></tr>";
+                    });
 
                     tableHead += "</table>";
-
-                    console.log(tableHead);
-
                     document.getElementById(dataTableId).innerHTML = tableHead;
                 });
 
