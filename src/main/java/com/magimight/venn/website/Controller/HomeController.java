@@ -69,13 +69,13 @@ public class HomeController {
         } else {
             model.addAttribute("vennDiagramId", "EMPTY");
         }
-        return "/admindata/createNewVenn";
+        return "admindata/createNewVenn";
     }
 
     @GetMapping("/data/list")
     public String listVenn(Model model) {
         model.addAttribute("vennList", dataService.getAllVenns());
-        return "/data/listAllVenns";
+        return "data/listAllVenns";
     }
 
 }
