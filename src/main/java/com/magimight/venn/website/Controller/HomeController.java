@@ -2,6 +2,7 @@ package com.magimight.venn.website.Controller;
 
 import com.magimight.venn.website.Model.VennModel;
 import com.magimight.venn.website.Service.DataService;
+import com.magimight.venn.website.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,9 @@ public class HomeController {
 
     @Autowired
     DataService dataService;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping("/")
     public String index(Authentication authentication, Model model) {
@@ -38,6 +42,12 @@ public class HomeController {
     @GetMapping("/admin/new")
     public String admin() {
         return "admin/createNewAdmin";
+    }
+
+    @GetMapping("/admin/list")
+    public String adminList(Model model) {
+        model.addAttribute("adminList", userService.getAllAdmins());
+        return "admin/listAdmin";
     }
 
     @GetMapping("/error")
